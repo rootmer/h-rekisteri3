@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 
 #include "maarittely.h"
@@ -17,6 +18,9 @@ int valikko(void) {
     cout << "1 - Lisaa henkilo" << endl;
     cout << "2 - Listaa tietty henkilo" << endl;
     cout << "3 - Listaa kaikki henkilot" << endl;
+	cout << "4 - Poista tietyn henkilon tiedot" << endl;
+	cout << "5 - Tallenna tiedot tiedostoon" << endl;
+	cout << "6 - Lue tiedot tiedostosta" << endl;
     cin >> valinta;
     return valinta;
 }
@@ -29,14 +33,14 @@ void TulostaHenkilo(tietue TIEDOT[]) {
     cout << "Syötä hakemasi henkilön etunimi" << endl;
     cin >> nimi;
 
-    for (int a = 0; a < taulunkoko; a++) {
+    for (int a = 0; a < taulunKoko; a++) {
         if (TIEDOT[a].etunimi == nimi) {
             cout << endl << "Löytyi henkilö: " << TIEDOT[a].etunimi << " " << TIEDOT[a].koulumatka <<
             " " << TIEDOT[a].hattukoko << endl;
             break;
         }
 
-        if (a == taulunkoko - 1 && TIEDOT[a].etunimi != nimi) {
+        if (a == taulunKoko - 1 && TIEDOT[a].etunimi != nimi) {
             cout << endl << "Ei löytynyt henkilöä: " << nimi << endl;
             break;
         }
@@ -83,4 +87,63 @@ void LisaaHenkilo(tietue TIEDOT[], int *lkm) {
     }
 
     else if (taynna) { cout << endl << "Taulukko täynnä!" << endl; }
+}
+
+void PoistaHenkilo(tietue TIEDOT[]) {
+	string nimi;
+	string vastaus;
+	cout << "Syötä henkilön etunimi jonka tiedot haluat poistaa" << endl;
+    cin >> nimi;
+
+    for (int a = 0; a < taulunKoko; a++) {
+        if (TIEDOT[a].etunimi == nimi) {
+            cout << endl << "Löytyi henkilö: " << TIEDOT[a].etunimi << " " << TIEDOT[a].koulumatka <<
+            " " << TIEDOT[a].hattukoko << endl;
+			cout << "Haluatko poistaa henkilön tiedot? k/e" << endl;
+			cin >> vastaus;
+			
+			if (vastaus == "k") {
+				for (int b = a; b < taulunKoko - 1; b++) {
+					TIEDOT[b].etunimi = TIEDOT[b+1].etunimi;
+					TIEDOT[b].koulumatka = TIEDOT[b+1].koulumatka;
+					TIEDOT[b].hattukoko = TIEDOT[b+1].hattukoko;
+				}
+			 }
+			
+		else if (vastaus == "e") break;
+        
+		break;
+        }
+
+        if (a == taulunKoko - 1 && TIEDOT[a].etunimi != nimi) {
+            cout << endl << "Ei löytynyt henkilöä: " << nimi << endl;
+            break;
+        }
+    }
+}
+
+void TallennaTiedostoon(string tiedosto,tietue tietueTaulu[]) {
+	ofstream ofilu(tiedosto);
+	if (ofilu.is_open())
+	{	
+		for (int a = 0; a < taulunKoko; a++) {
+			ofilu << tietueTaulu[a].etunimi << " " << tietueTaulu[a].koulumatka
+			      << " " << tietueTaulu[a].hattukoko << endl;
+		}
+		ofilu.close();
+	}
+	else cout << "Ei voitu avata tiedostoa";
+}
+
+void LueTiedostosta(string tiedosto,tietue tietueTaulu[]) {
+	string rivi;
+	ifstream ifilu (tiedosto);
+	if (ifilu.is_open())
+	{
+		while (getline (ifilu,rivi)) {
+			cout << rivi << endl;
+		}
+		ifilu.close();
+	}
+	else cout << "Ei voitu avata tiedostoa"; 
 }

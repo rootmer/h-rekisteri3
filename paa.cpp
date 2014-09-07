@@ -14,10 +14,11 @@ using namespace std;
 *   m‰‰ritetty vakiomuuttujassa. tauluTemp t‰ss‰ koska
 *   osoitinta ei voi m‰‰ritt‰‰ vakion kautta. 
 */
-const int taulunkoko = 10;
-int tauluTemp = taulunkoko;
+const int taulunKoko = 10;
+int tauluTemp = taulunKoko;
 int *pTauluKoko = &tauluTemp;
 bool taynna = false;
+const string tiedosto = "tiedosto.dat";
 
 
 /** Ohjelman main funktio
@@ -28,7 +29,8 @@ int main(void)
     /** tietuetaulukon kokona 10 alkiota,
     *   m‰‰ritetty vakiomuuttujassa taulunkoko
     */
-    tietue hRekisteri[taulunkoko];
+    tietue hRekisteri[taulunKoko];
+	tietue hRekisteriFilu[taulunKoko];
     int valinta = 99;
 
     do {
@@ -59,20 +61,19 @@ int main(void)
         *   taulukosta
         */
         else if (valinta == 3) {
-            TulostaKaikkiHenkilot(hRekisteri, taulunkoko);
-            /** for (int a = 0; a < taulunkoko; a++) {
-            *   cout << "Henkilˆ " << a << ": " << hRekisteri[a].etunimi << " "
-            *   << hRekisteri[a].koulumatka << " " << hRekisteri[a].hattukoko << endl;
-            *   }
-            */
+            TulostaKaikkiHenkilot(hRekisteri, taulunKoko);
         }
 
-		/** Poista henkilˆn tiedot
+		/** Poistaa henkilˆn tiedot
 		*
 		*
 		*/
 		else if (valinta == 4) {
+			PoistaHenkilo(hRekisteri);
+		}
 
+		else if (valinta == 5) {
+			TallennaTiedostoon(tiedosto,hRekisteriFilu);
 		}
 
 		/** Tallenna tiedostot tiedostoon
@@ -80,8 +81,8 @@ int main(void)
 		*
 		*
 		*/
-		else if (valinta == 5) {
-
+		else if (valinta == 6) {
+			LueTiedostosta(tiedosto,hRekisteriFilu);
 		}
 
 		/** Hae tiedot tiedostosta
@@ -92,7 +93,7 @@ int main(void)
 
 		}
 
-        else cout << endl; << "Valitse uudelleen" << endl;
+        else cout << endl << "Valitse uudelleen" << endl;
 
     } while (valinta != 0);
 }
