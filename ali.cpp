@@ -115,7 +115,7 @@ void PoistaHenkilo(tietue TIEDOT[]) {
 		break;
         }
 
-        if (a == taulunKoko - 1 && TIEDOT[a].etunimi != nimi) {
+        if ((a == taulunKoko - 1) && (TIEDOT[a].etunimi != nimi)) {
             cout << endl << "Ei löytynyt henkilöä: " << nimi << endl;
             break;
         }

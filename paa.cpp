@@ -30,8 +30,7 @@ int main(void)
     *   m‰‰ritetty vakiomuuttujassa taulunkoko
     */
     tietue hRekisteri[taulunKoko];
-	tietue hRekisteriFilu[taulunKoko];
-    int valinta = 99;
+	int valinta = 99;
 
     do {
 
@@ -73,7 +72,7 @@ int main(void)
 		}
 
 		else if (valinta == 5) {
-			TallennaTiedostoon(tiedosto,hRekisteriFilu);
+			TallennaTiedostoon(tiedosto,hRekisteri);
 		}
 
 		/** Tallenna tiedostot tiedostoon
@@ -82,15 +81,7 @@ int main(void)
 		*
 		*/
 		else if (valinta == 6) {
-			LueTiedostosta(tiedosto,hRekisteriFilu);
-		}
-
-		/** Hae tiedot tiedostosta
-		*
-		*
-		*/
-		else if (valinta == 6) {
-
+			LueTiedostosta(tiedosto,hRekisteri);
 		}
 
         else cout << endl << "Valitse uudelleen" << endl;
