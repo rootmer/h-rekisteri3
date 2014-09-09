@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 
 #include "maarittely.h"
@@ -48,7 +49,7 @@ void TulostaHenkilo(tietue TIEDOT[]) {
 }
 
 /** Listaa kaikki henkilöt lkm kokoisessa
-*   tietuetaulukossa TIEDOT
+*   TIEDOTkossa TIEDOT
 *
 */
 void TulostaKaikkiHenkilot(tietue TIEDOT[], int lkm) {
@@ -122,27 +123,44 @@ void PoistaHenkilo(tietue TIEDOT[]) {
     }
 }
 
-void TallennaTiedostoon(string tiedosto,tietue tietueTaulu[]) {
+void TallennaTiedostoon(string tiedosto,tietue TIEDOT[]) {
 	ofstream ofilu(tiedosto);
 	if (ofilu.is_open())
 	{	
 		for (int a = 0; a < taulunKoko; a++) {
-			ofilu << tietueTaulu[a].etunimi << " " << tietueTaulu[a].koulumatka
-			      << " " << tietueTaulu[a].hattukoko << endl;
+			ofilu << TIEDOT[a].etunimi << " " << TIEDOT[a].koulumatka
+			      << " " << TIEDOT[a].hattukoko << endl;
 		}
 		ofilu.close();
 	}
 	else cout << "Ei voitu avata tiedostoa";
 }
 
-void LueTiedostosta(string tiedosto,tietue tietueTaulu[]) {
+void LueTiedostosta(string tiedosto,tietue TIEDOT[]) {
 	string rivi;
 	ifstream ifilu (tiedosto);
 	if (ifilu.is_open())
 	{
+		string erotin = " ";
+		float kmatka;
+		int hkoko;
+		int indeksi = 0;
 		while (getline (ifilu,rivi)) {
 			cout << rivi << endl;
+			 string nimi = rivi.substr(0, rivi.find(erotin));
+			 istringstream(rivi.substr(0, rivi.find(erotin))) >> kmatka;
+			 istringstream(rivi.substr(0, rivi.find(erotin))) >> hkoko;
+			 TIEDOT[indeksi].etunimi = nimi;
+			 TIEDOT[indeksi].etunimi = kmatka;
+			 TIEDOT[indeksi].etunimi = hkoko;
+			 indeksi++;
 		}
+		for (int a = indeksi; a < *pTauluKoko; a++) {
+			TIEDOT[a].etunimi = "empty";
+			TIEDOT[a].koulumatka = 0.0;
+			TIEDOT[a].hattukoko = 0;
+		}
+
 		ifilu.close();
 	}
 	else cout << "Ei voitu avata tiedostoa"; 
