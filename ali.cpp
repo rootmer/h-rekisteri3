@@ -90,6 +90,9 @@ void LisaaHenkilo(tietue TIEDOT[], int *lkm) {
     else if (taynna) { cout << endl << "Taulukko täynnä!" << endl; }
 }
 
+/** Poistaa henkilön tiedot
+*	etunimen perusteella
+*/
 void PoistaHenkilo(tietue TIEDOT[]) {
 	string nimi;
 	string vastaus;
@@ -123,6 +126,9 @@ void PoistaHenkilo(tietue TIEDOT[]) {
     }
 }
 
+/** Tallentaa taulukon tiedot tiedostoon
+*
+*/
 void TallennaTiedostoon(string tiedosto,tietue TIEDOT[]) {
 	ofstream ofilu(tiedosto);
 	if (ofilu.is_open())
@@ -136,6 +142,9 @@ void TallennaTiedostoon(string tiedosto,tietue TIEDOT[]) {
 	else cout << "Ei voitu avata tiedostoa";
 }
 
+/** Lukee tiedot tiedostosta
+*	ja tallentaa ne taulukkoon
+*/
 void LueTiedostosta(string tiedosto,tietue TIEDOT[]) {
 	string rivi;
 	ifstream ifilu (tiedosto);
