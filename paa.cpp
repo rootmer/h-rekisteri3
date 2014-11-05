@@ -1,7 +1,9 @@
 /** Ohjelma joka ottaa vastaan käyttäjältä
 *   henkilön perustietoja. Kun taulukko täynnä
 *   ohjelma ilmoittaa siitä.
-*
+*	Tekijä: Toni Turpeinen
+*   Versio: 0.0001a_unstable_experimental
+*   PVM: 5.11.2014
 */
 
 #include <iostream>
@@ -15,8 +17,6 @@ using namespace std;
 *   osoitinta ei voi määrittää vakion kautta. 
 */
 const int taulunKoko = 10;
-int tauluTemp = taulunKoko;
-int *pTauluKoko = &tauluTemp;
 bool taynna = false;
 const string tiedosto = "tiedosto.dat";
 
@@ -45,7 +45,7 @@ int main(void)
         */
         else if (valinta == 1) {
 
-                LisaaHenkilo(hRekisteri,pTauluKoko);
+                LisaaHenkilo(hRekisteri,taulunKoko);
         }
 
         /** Listaa käyttäjän haluaman

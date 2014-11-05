@@ -15,11 +15,12 @@ struct tietue {
 };
 
 /** taulukon koko vakiomuuttujana
-*	
+*	osoittimen m‰‰rittely
+*   boolean t‰ynn‰ muuttuja. Extern koska
+*   vaatii otsaketiedostossa
 */
 extern const int taulunKoko;
 extern int tauluTemp;
-extern int *pTauluKoko;
 extern bool taynna;
 
 /** aliohjelmien prototyypit
@@ -28,7 +29,7 @@ extern bool taynna;
 int valikko(void);
 void TulostaHenkilo(tietue TIEDOT[]);
 void TulostaKaikkiHenkilot(tietue TIEDOT[], int lkm);
-void LisaaHenkilo(tietue TIEDOT[], int *lkm);
+void LisaaHenkilo(tietue TIEDOT[], int lkm);
 void PoistaHenkilo(tietue TIEDOT[]);
 void TallennaTiedostoon(std::string tiedosto,tietue tietueTaulu[]);
 void LueTiedostosta(std::string tiedosto,tietue tietueTaulu[]);

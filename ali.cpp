@@ -26,46 +26,13 @@ int valikko(void) {
     return valinta;
 }
 
-/** Aliohjelma joka hakee henkilön tiedot
-*   syötetyn nimen perusteella
-*/
-void TulostaHenkilo(tietue TIEDOT[]) {
-	string nimi;
-    cout << "Syötä hakemasi henkilön etunimi" << endl;
-    cin >> nimi;
-
-    for (int a = 0; a < taulunKoko; a++) {
-        if (TIEDOT[a].etunimi == nimi) {
-            cout << endl << "Löytyi henkilö: " << TIEDOT[a].etunimi << " " << TIEDOT[a].koulumatka <<
-            " " << TIEDOT[a].hattukoko << endl;
-            break;
-        }
-
-        if (a == taulunKoko - 1 && TIEDOT[a].etunimi != nimi) {
-            cout << endl << "Ei löytynyt henkilöä: " << nimi << endl;
-            break;
-        }
-    }
-}
-
-/** Listaa kaikki henkilöt lkm kokoisessa
-*   TIEDOTkossa TIEDOT
-*
-*/
-void TulostaKaikkiHenkilot(tietue TIEDOT[], int lkm) {
-	for (int a = 0; a < lkm; a++) {
-        cout << "Henkilö " << a << ": " << TIEDOT[a].etunimi << " "
-        << TIEDOT[a].koulumatka << " " << TIEDOT[a].hattukoko << endl;
-    }
-}
-
 /** Henkilön lisäämiseen tarkoitettu
 *   aliohjelma. Tarkistaa myös onko tilaa tiedoille.
 */
-void LisaaHenkilo(tietue TIEDOT[], int *lkm) {
+void LisaaHenkilo(tietue TIEDOT[], int lkm) {
 	int kohta = 99;
-    for (int a = 0; a < *lkm; a++) {
-        if (TIEDOT[a].etunimi == "empty") {
+    for (int a = 0; a < lkm; a++) {
+		if (TIEDOT[a].etunimi == "empty") {
             kohta = a;
             break;
         }
@@ -81,13 +48,46 @@ void LisaaHenkilo(tietue TIEDOT[], int *lkm) {
         cin >> kMatka;
         cout << "Henkilön hatun koko" << endl;
         cin >> hKoko;
-        TIEDOT[kohta].etunimi = eNimi;
-        TIEDOT[kohta].koulumatka = kMatka;
-        TIEDOT[kohta].hattukoko = hKoko;
-        if (kohta == *lkm - 1) { taynna = true; }
+		TIEDOT[kohta].etunimi = eNimi;
+		TIEDOT[kohta].koulumatka = kMatka;
+		TIEDOT[kohta].hattukoko = hKoko;
+        if (kohta == lkm - 1) { taynna = true; }
     }
 
     else if (taynna) { cout << endl << "Taulukko täynnä!" << endl; }
+}
+
+/** Aliohjelma joka hakee henkilön tiedot
+*   syötetyn nimen perusteella
+*/
+void TulostaHenkilo(tietue TIEDOT[]) {
+	string nimi;
+    cout << "Syötä hakemasi henkilön etunimi" << endl;
+    cin >> nimi;
+
+    for (int a = 0; a < taulunKoko; a++) {
+		if (TIEDOT[a].etunimi == nimi) {
+			cout << endl << "Löytyi henkilö: " << TIEDOT[a].etunimi << " " << TIEDOT[a].koulumatka <<
+				" " << TIEDOT[a].hattukoko << endl;
+            break;
+        }
+
+		if (a == taulunKoko - 1 && TIEDOT[a].etunimi != nimi) {
+            cout << endl << "Ei löytynyt henkilöä: " << nimi << endl;
+            break;
+        }
+    }
+}
+
+/** Listaa kaikki henkilöt lkm kokoisessa
+*   tietueessa TIEDOT, joka toteutettu osoittimella
+*
+*/
+void TulostaKaikkiHenkilot(tietue TIEDOT[], int lkm) {
+	for (int a = 0; a < lkm; a++) {
+		cout << "Henkilö " << a << ": " << TIEDOT[a].etunimi << " "
+			<< TIEDOT[a].koulumatka << " " << TIEDOT[a].hattukoko << endl;
+    }
 }
 
 /** Poistaa henkilön tiedot
@@ -100,17 +100,17 @@ void PoistaHenkilo(tietue TIEDOT[]) {
     cin >> nimi;
 
     for (int a = 0; a < taulunKoko; a++) {
-        if (TIEDOT[a].etunimi == nimi) {
-            cout << endl << "Löytyi henkilö: " << TIEDOT[a].etunimi << " " << TIEDOT[a].koulumatka <<
-            " " << TIEDOT[a].hattukoko << endl;
+		if (TIEDOT[a].etunimi == nimi) {
+			cout << endl << "Löytyi henkilö: " << TIEDOT[a].etunimi << " " << TIEDOT[a].koulumatka <<
+				" " << TIEDOT[a].hattukoko << endl;
 			cout << "Haluatko poistaa henkilön tiedot? k/e" << endl;
 			cin >> vastaus;
 			
 			if (vastaus == "k") {
 				for (int b = a; b < taulunKoko - 1; b++) {
-					TIEDOT[b].etunimi = TIEDOT[b+1].etunimi;
-					TIEDOT[b].koulumatka = TIEDOT[b+1].koulumatka;
-					TIEDOT[b].hattukoko = TIEDOT[b+1].hattukoko;
+					TIEDOT[b].etunimi = TIEDOT[b + 1].etunimi;
+					TIEDOT[b].koulumatka = TIEDOT[b + 1].koulumatka;
+					TIEDOT[b].hattukoko = TIEDOT[b + 1].hattukoko;
 				}
 			 }
 			
@@ -119,7 +119,7 @@ void PoistaHenkilo(tietue TIEDOT[]) {
 		break;
         }
 
-        if ((a == taulunKoko - 1) && (TIEDOT[a].etunimi != nimi)) {
+		if ((a == taulunKoko - 1) && (TIEDOT[a].etunimi != nimi)) {
             cout << endl << "Ei löytynyt henkilöä: " << nimi << endl;
             break;
         }
@@ -135,7 +135,7 @@ void TallennaTiedostoon(string tiedosto,tietue TIEDOT[]) {
 	{	
 		for (int a = 0; a < taulunKoko; a++) {
 			ofilu << TIEDOT[a].etunimi << " " << TIEDOT[a].koulumatka
-			      << " " << TIEDOT[a].hattukoko << endl;
+				<< " " << TIEDOT[a].hattukoko << endl;
 		}
 		ofilu.close();
 	}
@@ -164,7 +164,7 @@ void LueTiedostosta(string tiedosto,tietue TIEDOT[]) {
 			 TIEDOT[indeksi].etunimi = hkoko;
 			 indeksi++;
 		}
-		for (int a = indeksi; a < *pTauluKoko; a++) {
+		for (int a = indeksi; a < taulunKoko; a++) {
 			TIEDOT[a].etunimi = "empty";
 			TIEDOT[a].koulumatka = 0.0;
 			TIEDOT[a].hattukoko = 0;
