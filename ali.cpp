@@ -1,19 +1,27 @@
+/** Aliohjelmat sisältävä 
+*
+*
+*/
+
+/** Tarpeellisten kirjastojen käyttöönotto */
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
 
+/** Erillisen otsaketiedoston sisällyttäminen*/
 #include "maarittely.h"
 
-
+/** Helpottaa coutin ja cinin käyttöä */
 using namespace std;
 
-/** Valikko näkyville
-*   nyt aliohjelmana
+/** Yksinkertainen valikko näkyville aliohjelman avulla.
+*   Näyttää ohjeet näytöllä ja ottaa vastaan käyttäjän valinnan numerona.
 */
-int valikko(void) {
+int Valikko(void) {
 	int valinta = 99;
     cout << endl;
+	cout << "======================================================================" << endl;
     cout << "VALIKKO" << endl;
     cout << "0 - Lopeta" << endl;
     cout << "1 - Lisaa henkilo" << endl;
@@ -22,6 +30,7 @@ int valikko(void) {
 	cout << "4 - Poista tietyn henkilon tiedot" << endl;
 	cout << "5 - Tallenna tiedot tiedostoon" << endl;
 	cout << "6 - Lue tiedot tiedostosta" << endl;
+	cout << "======================================================================" << endl;
     cin >> valinta;
     return valinta;
 }
@@ -29,50 +38,50 @@ int valikko(void) {
 /** Henkilön lisäämiseen tarkoitettu
 *   aliohjelma. Tarkistaa myös onko tilaa tiedoille.
 */
-void LisaaHenkilo(tietue TIEDOT[], int lkm) {
+void LisaaHenkilo(Tietue TIEDOT[], int lukumaara) {
 	int kohta = 99;
-    for (int a = 0; a < lkm; a++) {
+    for (int a = 0; a < lukumaara; a++) {
 		if (TIEDOT[a].etunimi == "empty") {
             kohta = a;
             break;
         }
     }
 
-    if (!taynna) {
-        string eNimi;
-        float kMatka;
-        int hKoko;
+    if (!TietojaMahtuu) {
+        string EtuNimi;
+        float KouluMatka;
+        int HatunKoko;
         cout << "Henkilön etunimi" << endl;
-        cin >> eNimi;
+        cin >> EtuNimi;
         cout << "Henkilön koulumatka" << endl;
-        cin >> kMatka;
+        cin >> KouluMatka;
         cout << "Henkilön hatun koko" << endl;
-        cin >> hKoko;
-		TIEDOT[kohta].etunimi = eNimi;
-		TIEDOT[kohta].koulumatka = kMatka;
-		TIEDOT[kohta].hattukoko = hKoko;
-        if (kohta == lkm - 1) { taynna = true; }
+        cin >> HatunKoko;
+		TIEDOT[kohta].etunimi = EtuNimi;
+		TIEDOT[kohta].koulumatka = KouluMatka;
+		TIEDOT[kohta].hattukoko = HatunKoko;
+        if (kohta == lukumaara - 1) { TietojaMahtuu = true; }
     }
 
-    else if (taynna) { cout << endl << "Taulukko täynnä!" << endl; }
+    else if (TietojaMahtuu) { cout << endl << "Taulukko täynnä!" << endl; }
 }
 
 /** Aliohjelma joka hakee henkilön tiedot
 *   syötetyn nimen perusteella
 */
-void TulostaHenkilo(tietue TIEDOT[]) {
+void TulostaHenkilo(Tietue TIEDOT[]) {
 	string nimi;
     cout << "Syötä hakemasi henkilön etunimi" << endl;
     cin >> nimi;
 
-    for (int a = 0; a < taulunKoko; a++) {
+    for (int a = 0; a < TIETUE_TAULUN_KOKO; a++) {
 		if (TIEDOT[a].etunimi == nimi) {
 			cout << endl << "Löytyi henkilö: " << TIEDOT[a].etunimi << " " << TIEDOT[a].koulumatka <<
 				" " << TIEDOT[a].hattukoko << endl;
             break;
         }
 
-		if (a == taulunKoko - 1 && TIEDOT[a].etunimi != nimi) {
+		if (a == TIETUE_TAULUN_KOKO - 1 && TIEDOT[a].etunimi != nimi) {
             cout << endl << "Ei löytynyt henkilöä: " << nimi << endl;
             break;
         }
@@ -80,10 +89,10 @@ void TulostaHenkilo(tietue TIEDOT[]) {
 }
 
 /** Listaa kaikki henkilöt lkm kokoisessa
-*   tietueessa TIEDOT, joka toteutettu osoittimella
+*   tietueessa TIEDOT
 *
 */
-void TulostaKaikkiHenkilot(tietue TIEDOT[], int lkm) {
+void TulostaKaikkiHenkilot(Tietue TIEDOT[], int lkm) {
 	for (int a = 0; a < lkm; a++) {
 		cout << "Henkilö " << a << ": " << TIEDOT[a].etunimi << " "
 			<< TIEDOT[a].koulumatka << " " << TIEDOT[a].hattukoko << endl;
@@ -93,13 +102,13 @@ void TulostaKaikkiHenkilot(tietue TIEDOT[], int lkm) {
 /** Poistaa henkilön tiedot
 *	etunimen perusteella
 */
-void PoistaHenkilo(tietue TIEDOT[]) {
+void PoistaHenkilo(Tietue TIEDOT[]) {
 	string nimi;
 	string vastaus;
 	cout << "Syötä henkilön etunimi jonka tiedot haluat poistaa" << endl;
     cin >> nimi;
 
-    for (int a = 0; a < taulunKoko; a++) {
+    for (int a = 0; a < TIETUE_TAULUN_KOKO; a++) {
 		if (TIEDOT[a].etunimi == nimi) {
 			cout << endl << "Löytyi henkilö: " << TIEDOT[a].etunimi << " " << TIEDOT[a].koulumatka <<
 				" " << TIEDOT[a].hattukoko << endl;
@@ -107,19 +116,19 @@ void PoistaHenkilo(tietue TIEDOT[]) {
 			cin >> vastaus;
 			
 			if (vastaus == "k") {
-				for (int b = a; b < taulunKoko - 1; b++) {
+				for (int b = a; b < TIETUE_TAULUN_KOKO - 1; b++) {
 					TIEDOT[b].etunimi = TIEDOT[b + 1].etunimi;
 					TIEDOT[b].koulumatka = TIEDOT[b + 1].koulumatka;
 					TIEDOT[b].hattukoko = TIEDOT[b + 1].hattukoko;
 				}
 			 }
 			
-		else if (vastaus == "e") break;
+			else if (vastaus == "e") break;
         
 		break;
         }
 
-		if ((a == taulunKoko - 1) && (TIEDOT[a].etunimi != nimi)) {
+		if ((a == TIETUE_TAULUN_KOKO - 1) && (TIEDOT[a].etunimi != nimi)) {
             cout << endl << "Ei löytynyt henkilöä: " << nimi << endl;
             break;
         }
@@ -129,42 +138,54 @@ void PoistaHenkilo(tietue TIEDOT[]) {
 /** Tallentaa taulukon tiedot tiedostoon
 *
 */
-void TallennaTiedostoon(string tiedosto,tietue TIEDOT[]) {
+void TallennaTiedostoon(string tiedosto,Tietue TIEDOT[]) {
 	ofstream ofilu(tiedosto);
 	if (ofilu.is_open())
 	{	
-		for (int a = 0; a < taulunKoko; a++) {
-			ofilu << TIEDOT[a].etunimi << " " << TIEDOT[a].koulumatka
-				<< " " << TIEDOT[a].hattukoko << endl;
+		for (int a = 0; a < TIETUE_TAULUN_KOKO; a++) {
+			ofilu << TIEDOT[a].etunimi << "**" << TIEDOT[a].koulumatka
+				<< "**" << TIEDOT[a].hattukoko << endl;
 		}
 		ofilu.close();
 	}
-	else cout << "Ei voitu avata tiedostoa";
+	else cout << "Ei voitu tallentaa tiedostoon: " << tiedosto << "Tarkista onko tiedosto toisen ohjelman käytössä tai jokin muu ongelma.. " << endl;
 }
 
 /** Lukee tiedot tiedostosta
-*	ja tallentaa ne taulukkoon
+*	ja tallentaa ne tietuetaulukkoon
 */
-void LueTiedostosta(string tiedosto,tietue TIEDOT[]) {
+void LueTiedostosta(string tiedosto, Tietue TIEDOT[]) {
 	string rivi;
 	ifstream ifilu (tiedosto);
 	if (ifilu.is_open())
 	{
-		string erotin = " ";
-		float kmatka;
-		int hkoko;
+		string erotin = "**";
+		float koulumatkaa;
+		int hatunkoko;
 		int indeksi = 0;
 		while (getline (ifilu,rivi)) {
 			cout << rivi << endl;
-			 string nimi = rivi.substr(0, rivi.find(erotin));
-			 istringstream(rivi.substr(0, rivi.find(erotin))) >> kmatka;
-			 istringstream(rivi.substr(0, rivi.find(erotin))) >> hkoko;
-			 TIEDOT[indeksi].etunimi = nimi;
-			 TIEDOT[indeksi].etunimi = kmatka;
-			 TIEDOT[indeksi].etunimi = hkoko;
-			 indeksi++;
+			string nimi = rivi.substr(0, rivi.find(erotin));
+			
+			/** Googletettu C++ kirjastossa oleva funktio istringstream 
+			*	jolla saadaan tiedot talteen muuttujiin 'koulumatkaa' ja
+			*   'hatunkoko'.
+			*/
+			istringstream(rivi.substr(0, rivi.find(erotin))) >> koulumatkaa;
+			istringstream(rivi.substr(0, rivi.find(erotin))) >> hatunkoko;
+			// rivi.substr(0, rivi.find(erotin)) >> koulumatkaa;
+			// rivi.substr(0, rivi.find(erotin)) >> hatunkoko;
+
+			cout << "\nKoulumatka ja hatunkoko: " << koulumatkaa << " ja "
+				<< hatunkoko << endl;
+			
+			TIEDOT[indeksi].etunimi = nimi;
+			TIEDOT[indeksi].koulumatka = koulumatkaa;
+			TIEDOT[indeksi].hattukoko = hatunkoko;
+			indeksi++;
 		}
-		for (int a = indeksi; a < taulunKoko; a++) {
+
+		for (int a = indeksi; a < TIETUE_TAULUN_KOKO; a++) {
 			TIEDOT[a].etunimi = "empty";
 			TIEDOT[a].koulumatka = 0.0;
 			TIEDOT[a].hattukoko = 0;

@@ -3,35 +3,33 @@
 
 
 /** Tietue joka tulee pit‰m‰‰n sis‰ll‰‰n
-*   nimen, koulumatkan pituuden sek‰ hatun
-*   koon. Oletuksena etunimi- j‰sen alustetaan tilaan
-*   "empty" jotta voidaan tiet‰‰ mik‰ alkio on ns. tyhj‰.
+*   etunimen string -muuttujassa, koulumatkan pituuden floatissa sek‰ hatun
+*   koon kokonaislukumuuttujassa. Oletuksena etunimi -j‰sen alustetaan tilaan
+*   "empty" jotta voidaan lˆyt‰‰ helposti mik‰ alkio on ns. tyhj‰.
 */
-struct tietue {
+struct Tietue {
     std::string etunimi;
     float koulumatka;
     int hattukoko;
-    tietue(): etunimi("empty"), koulumatka(0.0), hattukoko(0) {}
+    Tietue(): etunimi("empty"), koulumatka(0.0), hattukoko(0) {}
 };
 
-/** taulukon koko vakiomuuttujana
+/** Tietuetaulukon koko vakiomuuttujana,
 *	osoittimen m‰‰rittely
 *   boolean t‰ynn‰ muuttuja. Extern koska
 *   vaatii otsaketiedostossa
 */
-extern const int taulunKoko;
-extern int tauluTemp;
-extern bool taynna;
 
-/** aliohjelmien prototyypit
-*
-*/
-int valikko(void);
-void TulostaHenkilo(tietue TIEDOT[]);
-void TulostaKaikkiHenkilot(tietue TIEDOT[], int lkm);
-void LisaaHenkilo(tietue TIEDOT[], int lkm);
-void PoistaHenkilo(tietue TIEDOT[]);
-void TallennaTiedostoon(std::string tiedosto,tietue tietueTaulu[]);
-void LueTiedostosta(std::string tiedosto,tietue tietueTaulu[]);
+extern const int TIETUE_TAULUN_KOKO;
+extern bool TietojaMahtuu;
+
+/** aliohjelmien prototyypit alla */
+int Valikko(void);
+void TulostaHenkilo(Tietue TIEDOT[]);
+void TulostaKaikkiHenkilot(Tietue TIEDOT[], int lkm);
+void LisaaHenkilo(Tietue TIEDOT[], int lkm);
+void PoistaHenkilo(Tietue TIEDOT[]);
+void TallennaTiedostoon(std::string tiedosto, Tietue tietueTaulu[]);
+void LueTiedostosta(std::string tiedosto, Tietue tietueTaulu[]);
 
 #endif

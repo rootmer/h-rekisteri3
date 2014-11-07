@@ -1,24 +1,27 @@
 /** Ohjelma joka ottaa vastaan käyttäjältä
-*   henkilön perustietoja. Kun taulukko täynnä
-*   ohjelma ilmoittaa siitä.
+*   henkilön perustietoja. Etunimi, koulumatkan pituus sekä hatunkoko.
+*   Tietojen säilyttämisessä käytetään hyväksi
+*   enintään 10 henkilötietoa sisältävää tietuemuotoista taulukkoa. 
 *	Tekijä: Toni Turpeinen
-*   Versio: 0.0001a_unstable_experimental
-*   PVM: 5.11.2014
+*   Versio: 0.0003a_unstable_experimental
+*   PVM: 7.11.2014
 */
 
+/** Tarpeellisen iostream -kirjaston käyttöönotto */
 #include <iostream>
 
+/** Erillisen otsaketiedoston sisällyttäminen */
 #include "maarittely.h"
 
+/** Nopeuttaa coutien ja cinien käyttöä */
 using namespace std;
 
 /** Globaalien muuttujien määrittelyt. Taulukon koko
-*   määritetty vakiomuuttujassa. tauluTemp tässä koska
-*   osoitinta ei voi määrittää vakion kautta. 
+*   määritetty vakiomuuttujassa 'TIETUE_TAULUN_KOKO'
 */
-const int taulunKoko = 10;
-bool taynna = false;
-const string tiedosto = "tiedosto.dat";
+const int TIETUE_TAULUN_KOKO = 10;
+bool TietojaMahtuu = false;
+const string TIEDOSTO_NIMI = "tieto_pankki.dat";
 
 
 /** Ohjelman main funktio
@@ -27,64 +30,66 @@ const string tiedosto = "tiedosto.dat";
 int main(void)
 {
     /** tietuetaulukon kokona 10 alkiota,
-    *   määritetty vakiomuuttujassa taulunkoko
+    *   määritetty vakiomuuttujassa TIETUE_TAULUN_KOKO,
+	*   alustetaan kokonaislukumuuttuja valinta arvoon 
+	*   99.
     */
-    tietue hRekisteri[taulunKoko];
+    Tietue Rekisteri[TIETUE_TAULUN_KOKO];
 	int valinta = 99;
 
     do {
 
-        /** Valikosta poistuminen
-        *   syöttämällä 0
-        */
-        valinta = valikko();
+        /** Valikko -aliohjelman kutsu. */
+        valinta = Valikko();
+
+		/**Valikosta poistuminen syöttämällä 0. */
         if (valinta == 0) { break; }
 
-        /** Valikosta valinnalla 1
-        *   lisätään henkilötieto
+        /** Valikosta valinnalla 1 aliohjelmaan
+        *   jossa lisätään henkilötieto
         */
         else if (valinta == 1) {
-
-                LisaaHenkilo(hRekisteri,taulunKoko);
+			LisaaHenkilo(Rekisteri,TIETUE_TAULUN_KOKO);
         }
 
-        /** Listaa käyttäjän haluaman
-        *   henkilön tiedot
-        *
+        /** Valinnalla 2 aliohjelmaan joka listaa 
+		*   käyttäjän haluaman henkilön tiedot
         */
         else if (valinta == 2) {
-            TulostaHenkilo(hRekisteri);
+            TulostaHenkilo(Rekisteri);
         }
 
-        /** Listaa kaikki henkilötiedot
-        *   taulukosta
+        /** Valinnalla 3 listataan kaikki henkilötiedot
+        *   tietuetaulukosta
         */
         else if (valinta == 3) {
-            TulostaKaikkiHenkilot(hRekisteri, taulunKoko);
+            TulostaKaikkiHenkilot(Rekisteri, TIETUE_TAULUN_KOKO);
         }
 
-		/** Poistaa henkilön tiedot
-		*
-		*
-		*/
+		/** Poistaa yhden henkilön tiedot tietueesta 'hRekisteri' */
 		else if (valinta == 4) {
-			PoistaHenkilo(hRekisteri);
+			PoistaHenkilo(Rekisteri);
 		}
 
+		/** Valinta 5 tallentaa syötetyt tiedot 
+		*	tietuetaulukosta tiedostoon, jonka tiedostonimen 
+		*   vakiomuotoinen string -muuttuja 'TIEDOSTO_NIMI' määrittää.
+		*/
 		else if (valinta == 5) {
-			TallennaTiedostoon(tiedosto,hRekisteri);
+			TallennaTiedostoon(TIEDOSTO_NIMI,Rekisteri);
 		}
 
-		/** Tallenna tiedostot tiedostoon
-		*
-		*
-		*
+		/** Valinnalla 6 siirrytään aliohjelmaan LueTiedostosta, jossa yritetään
+		*   avata vakioidussa string -muuttujassa 'TIEDOSTO_NIMI' määritetty tiedosto 
+		*   ja siirtää tiedot tietuetaulukkoon 'hRekisteri'.
 		*/
 		else if (valinta == 6) {
-			LueTiedostosta(tiedosto,hRekisteri);
+			LueTiedostosta(TIEDOSTO_NIMI,Rekisteri);
 		}
 
+		/** Jos valinta ei ole sopiva, kehoitetaan käyttäjää uudelleenvalintaan */
         else cout << endl << "Valitse uudelleen" << endl;
 
+	/** Valinnalla 0 ohjelman suorittaminen lopetetaan */
     } while (valinta != 0);
 }
