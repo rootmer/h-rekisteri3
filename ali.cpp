@@ -53,9 +53,9 @@ void LisaaHenkilo(Tietue TIEDOT[], int lukumaara) {
         int HatunKoko;
         cout << "Henkilön etunimi" << endl;
         cin >> EtuNimi;
-        cout << "Henkilön koulumatka" << endl;
+        cout << "Henkilön koulumatka. Esimerkiksi 4 tai 3.2 tai 11.7." << endl;
         cin >> KouluMatka;
-        cout << "Henkilön hatun koko" << endl;
+        cout << "Henkilön hatun koko. Esimerkiksi 32 tai 21." << endl;
         cin >> HatunKoko;
 		TIEDOT[kohta].etunimi = EtuNimi;
 		TIEDOT[kohta].koulumatka = KouluMatka;
