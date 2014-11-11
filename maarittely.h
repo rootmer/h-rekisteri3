@@ -15,11 +15,9 @@ struct Tietue {
 };
 
 /** Tietuetaulukon koko vakiomuuttujana,
-*	osoittimen m‰‰rittely
-*   boolean t‰ynn‰ muuttuja. Extern koska
+*   boolean TietojaMahtuu muuttuja. Extern koska
 *   vaatii otsaketiedostossa
 */
-
 extern const int TIETUE_TAULUN_KOKO;
 extern bool TietojaMahtuu;
 
@@ -31,5 +29,8 @@ void LisaaHenkilo(Tietue TIEDOT[], int lkm);
 void PoistaHenkilo(Tietue TIEDOT[]);
 void TallennaTiedostoon(std::string tiedosto, Tietue tietueTaulu[]);
 void LueTiedostosta(std::string tiedosto, Tietue tietueTaulu[]);
+Tietue katko(const std::string &s, char katkaisin);
+
+
 
 #endif

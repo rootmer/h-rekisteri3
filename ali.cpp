@@ -1,21 +1,21 @@
-/** Aliohjelmat sisältävä 
-*
-*
+/**  Aliohjelmat sisältävä 
+*	 cpp-tiedosto
 */
 
-/** Tarpeellisten kirjastojen käyttöönotto */
+/**  Tarpeellisten kirjastojen käyttöönotto */
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <vector>
 
-/** Erillisen otsaketiedoston sisällyttäminen*/
+/**  Erillisen otsaketiedoston sisällyttäminen */
 #include "maarittely.h"
 
-/** Helpottaa coutin ja cinin käyttöä */
+/**  Helpottaa coutin ja cinin käyttöä */
 using namespace std;
 
-/** Yksinkertainen valikko näkyville aliohjelman avulla.
+/**  Yksinkertainen valikko näkyville aliohjelman avulla.
 *   Näyttää ohjeet näytöllä ja ottaa vastaan käyttäjän valinnan numerona.
 */
 int Valikko(void) {
@@ -35,7 +35,7 @@ int Valikko(void) {
     return valinta;
 }
 
-/** Henkilön lisäämiseen tarkoitettu
+/**  Henkilön lisäämiseen tarkoitettu
 *   aliohjelma. Tarkistaa myös onko tilaa tiedoille.
 */
 void LisaaHenkilo(Tietue TIEDOT[], int lukumaara) {
@@ -66,7 +66,7 @@ void LisaaHenkilo(Tietue TIEDOT[], int lukumaara) {
     else if (TietojaMahtuu) { cout << endl << "Taulukko täynnä!" << endl; }
 }
 
-/** Aliohjelma joka hakee henkilön tiedot
+/**  Aliohjelma joka hakee henkilön tiedot
 *   syötetyn nimen perusteella
 */
 void TulostaHenkilo(Tietue TIEDOT[]) {
@@ -88,18 +88,17 @@ void TulostaHenkilo(Tietue TIEDOT[]) {
     }
 }
 
-/** Listaa kaikki henkilöt lkm kokoisessa
+/**  Listaa kaikki henkilöt lkm kokoisessa
 *   tietueessa TIEDOT
-*
 */
 void TulostaKaikkiHenkilot(Tietue TIEDOT[], int lkm) {
 	for (int a = 0; a < lkm; a++) {
-		cout << "Henkilö " << a << ": " << TIEDOT[a].etunimi << " "
+		cout << "Henkilö " << a + 1 << ": " << TIEDOT[a].etunimi << " "
 			<< TIEDOT[a].koulumatka << " " << TIEDOT[a].hattukoko << endl;
     }
 }
 
-/** Poistaa henkilön tiedot
+/**  Poistaa henkilön tiedot
 *	etunimen perusteella
 */
 void PoistaHenkilo(Tietue TIEDOT[]) {
@@ -135,7 +134,7 @@ void PoistaHenkilo(Tietue TIEDOT[]) {
     }
 }
 
-/** Tallentaa taulukon tiedot tiedostoon
+/**  Tallentaa taulukon tiedot tiedostoon
 *
 */
 void TallennaTiedostoon(string tiedosto,Tietue TIEDOT[]) {
@@ -143,45 +142,29 @@ void TallennaTiedostoon(string tiedosto,Tietue TIEDOT[]) {
 	if (ofilu.is_open())
 	{	
 		for (int a = 0; a < TIETUE_TAULUN_KOKO; a++) {
-			ofilu << TIEDOT[a].etunimi << "**" << TIEDOT[a].koulumatka
-				<< "**" << TIEDOT[a].hattukoko << endl;
+			ofilu << TIEDOT[a].etunimi << " " << TIEDOT[a].koulumatka
+				<< " " << TIEDOT[a].hattukoko << endl;
 		}
 		ofilu.close();
 	}
 	else cout << "Ei voitu tallentaa tiedostoon: " << tiedosto << "Tarkista onko tiedosto toisen ohjelman käytössä tai jokin muu ongelma.. " << endl;
 }
 
-/** Lukee tiedot tiedostosta
-*	ja tallentaa ne tietuetaulukkoon
+/**  Lukee tiedot tiedostosta
+*	 ja tallentaa ne tietuetaulukkoon
 */
 void LueTiedostosta(string tiedosto, Tietue TIEDOT[]) {
 	string rivi;
 	ifstream ifilu (tiedosto);
 	if (ifilu.is_open())
 	{
-		string erotin = "**";
-		float koulumatkaa;
-		int hatunkoko;
+		string erotin = " ";
 		int indeksi = 0;
+		int erotinkohta = 0;
 		while (getline (ifilu,rivi)) {
 			cout << rivi << endl;
-			string nimi = rivi.substr(0, rivi.find(erotin));
-			
-			/** Googletettu C++ kirjastossa oleva funktio istringstream 
-			*	jolla saadaan tiedot talteen muuttujiin 'koulumatkaa' ja
-			*   'hatunkoko'.
-			*/
-			istringstream(rivi.substr(0, rivi.find(erotin))) >> koulumatkaa;
-			istringstream(rivi.substr(0, rivi.find(erotin))) >> hatunkoko;
-			// rivi.substr(0, rivi.find(erotin)) >> koulumatkaa;
-			// rivi.substr(0, rivi.find(erotin)) >> hatunkoko;
-
-			cout << "\nKoulumatka ja hatunkoko: " << koulumatkaa << " ja "
-				<< hatunkoko << endl;
-			
-			TIEDOT[indeksi].etunimi = nimi;
-			TIEDOT[indeksi].koulumatka = koulumatkaa;
-			TIEDOT[indeksi].hattukoko = hatunkoko;
+			Tietue RiviTieto = katko(rivi, ' ');
+			TIEDOT[indeksi] = RiviTieto;
 			indeksi++;
 		}
 
@@ -194,4 +177,19 @@ void LueTiedostosta(string tiedosto, Tietue TIEDOT[]) {
 		ifilu.close();
 	}
 	else cout << "Ei voitu avata tiedostoa"; 
+}
+
+/** LueTiedosto -aliohjelmaa varten tällainen pätkä koodia 
+*	joka katkoo string -muuttujan osasiin ja palauttaa osaset
+*   nätisti yhden kokoiseen Tietue -tyyppiseen tietueseen sijoitettuna
+*/
+Tietue katko(const std::string &s, char katkaisin) {
+	Tietue temp[1];
+	stringstream ss(s); // Lisää rivin stringstreamiin
+	
+	ss >> temp[0].etunimi;
+	ss >> temp[0].koulumatka;
+	ss >> temp[0].hattukoko;
+	
+	return temp[0];
 }

@@ -3,8 +3,8 @@
 *   Tietojen säilyttämisessä käytetään hyväksi
 *   enintään 10 henkilötietoa sisältävää tietuemuotoista taulukkoa. 
 *	Tekijä: Toni Turpeinen
-*   Versio: 0.0003a_unstable_experimental
-*   PVM: 7.11.2014
+*   Versio: 0.01beta_experimental
+*   PVM: 11.11.2014
 */
 
 /** Tarpeellisen iostream -kirjaston käyttöönotto */
