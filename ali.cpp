@@ -115,12 +115,28 @@ void PoistaHenkilo(Tietue TIEDOT[]) {
 			cin >> vastaus;
 			
 			if (vastaus == "k") {
-				for (int b = a; b < TIETUE_TAULUN_KOKO - 1; b++) {
+				int b = a;
+				//for (int b = a; b < TIETUE_TAULUN_KOKO - 1; b++) {
+				//	TIEDOT[b].etunimi = TIEDOT[b + 1].etunimi;
+				//	TIEDOT[b].koulumatka = TIEDOT[b + 1].koulumatka;
+				//	TIEDOT[b].hattukoko = TIEDOT[b + 1].hattukoko;
+				
+				/**	Siirretään poistokohtaan seuraava henkilö
+				*	ja jatketaan TIEDOT tietuetaulukon loppuun
+				*	tai siihen asti kunnes tyhjät kohdat alkaa
+				*/	
+				while (TIEDOT[b].etunimi != "empty" && b < TIETUE_TAULUN_KOKO && (b + 1 < TIETUE_TAULUN_KOKO) ) {
 					TIEDOT[b].etunimi = TIEDOT[b + 1].etunimi;
 					TIEDOT[b].koulumatka = TIEDOT[b + 1].koulumatka;
 					TIEDOT[b].hattukoko = TIEDOT[b + 1].hattukoko;
+					b++;
 				}
-			 }
+
+				// Poistaa viimesen henkilön koska siirretty pykälä "ylöspäin"
+				TIEDOT[b].etunimi = "empty";
+				TIEDOT[b].koulumatka = 0.0;
+				TIEDOT[b].hattukoko = 0;
+			}
 			
 			else if (vastaus == "e") break;
         
@@ -161,6 +177,10 @@ void LueTiedostosta(string tiedosto, Tietue TIEDOT[]) {
 		string erotin = " ";
 		int indeksi = 0;
 		int erotinkohta = 0;
+
+		/**	Käy rivit läpi ja 'RiviTieto' tietuetta hyväksi
+		*	käyttäen tiedot tallennettaan TIEDOT tietueeseen
+		*/
 		while (getline (ifilu,rivi)) {
 			cout << rivi << endl;
 			Tietue RiviTieto = katko(rivi, ' ');
@@ -168,6 +188,7 @@ void LueTiedostosta(string tiedosto, Tietue TIEDOT[]) {
 			indeksi++;
 		}
 
+		/** Jos tietuetaulukko ei ole täynnä niin loput merkitään tyhjäksi "empty" arvolla */
 		for (int a = indeksi; a < TIETUE_TAULUN_KOKO; a++) {
 			TIEDOT[a].etunimi = "empty";
 			TIEDOT[a].koulumatka = 0.0;
